@@ -7,10 +7,12 @@ function TaskList() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/tasks',{
+        const token = localStorage.getItem('jwtToken');
+        fetch('http://localhost:8080/api/tasks', {
             cache: 'no-store',
             headers: {
-            'Cache-Control': 'no-cache'
+                'Cache-Control': 'no-cache',
+                'Authorization': token ? `Bearer ${token}` : ''
             }
         })
         .then(res => {
@@ -42,11 +44,11 @@ function TaskList() {
     // }
 
     return (
-    <ul>
-      {tasks.map(task => (
-        <TaskItem key={task.id} task={task} />
-      ))}
-    </ul>
+    <div className="task-cards-container">
+    {tasks.map(task => (
+      <TaskItem key={task.id} task={task} />
+    ))}
+  </div>
   );
 
 }

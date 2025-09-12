@@ -10,9 +10,13 @@ function CreateTasks() {
         e.preventDefault();
         const task = { title, description, completed: false, dueDate, category : {categoryname : category} };
 
+        const token = localStorage.getItem('jwtToken');
         fetch('http://localhost:8080/api/tasks', {
-            method :'POST',
-            headers: {"Content-Type": "application/json"},
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': token ? `Bearer ${token}` : ''
+            },
             body: JSON.stringify(task)
         })
         .then(response => {
